@@ -9,17 +9,17 @@ You'll need the following pre-requisites:
 ## Deploying the LD Project
 First, change directory into the `iac` directory, run `terraform init`, and then `terraform apply`. You'll be prompted to supply your LD SDK key.
 
-Upon success, you should have a project "nerdamigo" with a single environment "production". That environment will have three flags and two segments.
+Upon success, you should have a project "nerdamigo" with a single environment "production". That environment will have three flags and three segments.
 
 As an output of this apply, a local file will be generated for the environment's SDK key. This file will be consumed by the web application. When you're done, you can execute `terraform destroy` to remove the project and related configuration, as well as the file containing the secrets.
 
 ## Running the Application
-Your LD SDK key will be loaded from an environment variable `LD_SDK_KEY` - if running from linux you can start with `LD_SDK_KEY=[your-key] dotnet run` inside the root directory.
+You can build this application using start with `dotnet run` inside the root directory.
 
 Once started up, review the output to identify the listen port; you'll be able to invoke requests at that endpoint. For example, with the following startup output:
 
 ```
-$ LD_SDK_KEY='myskdkey' dotnet run
+$ dotnet run
 Building...
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: https://localhost:7150
@@ -48,3 +48,9 @@ Depending on the specified gender of a user, the greeting served is varied using
 
 ### feature-long-uid
 Here, we simply demonstrate how the logic that defines what constitutes a business rule might be exposed through the LaunchDarkly interface. By default, users with an id >= 8 characters long are provided a different description than the baseline.
+
+## Common Errors:
+* When starting, message "System.IO.FileNotFoundException: Could not find file '[path-to-project]/ld-environment-config.json'"  
+Please ensure you run the terraform commands to deploy the application's project, environment, and flags.
+* HTTP 404  
+Ensure you are accessing the URI output by the application's startup logs, and at a supported endpoint
